@@ -43,7 +43,6 @@ export default function App() {
 
   // Fetch map data safely
   useEffect(() => {
-    setIsLoading(true);
     Promise.all([
       fetch(WORLD_GEOJSON).then(r => r.json()),
       fetch(US_GEOJSON).then(r => r.json())
@@ -65,7 +64,10 @@ export default function App() {
       setFeatures([...worldFeatures, ...stateFeatures]);
       setIsLoading(false);
     })
-    .catch(err => console.error("Map data error:", err));
+    .catch(err => {
+      console.error("Map data error:", err);
+      setIsLoading(false);
+    });
   }, []);
 
   // Move camera
